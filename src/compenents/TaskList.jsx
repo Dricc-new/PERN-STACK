@@ -37,8 +37,8 @@ export default function TaskList() {
     <div>
       <section className="flex gap-4">
         {/* Calendar */}
-        <article className="container w-[768px] mx-auto flex flex-col gap-6">
-          <div className="box-container flex justify-center p-5">
+        <article className="container w-[768px] mx-auto flex flex-col gap-3">
+          <div className="box-container flex justify-center p-3">
             <h1 className="text-4xl">{month}</h1>
           </div>
           <div>
@@ -47,10 +47,24 @@ export default function TaskList() {
           </div>
         </article>
         {/* List Task */}
-        <article className="box-container grow">
-          <h1 className="text-center text-lg font-bold">Task of the month</h1>
-          <ul>
-            <li className="box-container">
+        <article className="box-container grow relative">
+          <div className="flex justify-between my-2">
+            <h1 className="text-center text-lg font-bold">Tasks of the month</h1>
+            <button className="px-2 text-sm uppercase border rounded border-[e8e5e333] text-center font-bold">new task</button>
+          </div>
+          <ul className="flex flex-col gap-2">
+            <li className="box-container cursor-pointer hover:translate-x-1">
+              <h4 className="text-xs float-right opacity-60">day 1 - 8:00 PM</h4>
+              <h4 className="text-xs font-bold">title</h4>
+              <p className="texl-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+            </li>
+            <li className="box-container cursor-pointer hover:translate-x-1">
+              <h4 className="text-xs float-right opacity-60">day 1 - 8:00 PM</h4>
+              <h4 className="text-xs font-bold">title</h4>
+              <p className="texl-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+            </li>            
+            <li className="box-container cursor-pointer hover:translate-x-1">
+              <h4 className="text-xs float-right opacity-60">day 1 - 8:00 PM</h4>
               <h4 className="text-xs font-bold">title</h4>
               <p className="texl-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
             </li>
