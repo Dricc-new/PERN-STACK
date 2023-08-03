@@ -6,9 +6,9 @@ import { Container } from '@mui/material'
 
 function App() {
     return (
-        <BrowserRouter>
+        <BrowserRouter className="bg">
             <NavBar/>
-            <Container>
+            <Container maxWidth="xl">
                 <Routes>
                     <Route path='/' element={<TaskList />} />
                     <Route path='/tasks/new' element={<TaskForm />} />
