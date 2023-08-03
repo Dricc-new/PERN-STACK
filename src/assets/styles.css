@@ -11,6 +11,6 @@ body{
 
 .box-container{
     @apply border rounded-lg bg-transparent p-2;
-    border-color: rgba(232, 229, 227,.2);
+    border-color: #e8e5e333;
     backdrop-filter: blur(15px);
 }
