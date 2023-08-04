@@ -3,7 +3,7 @@
 @tailwind utilities;
 body{
     color: white;
-    background-image: url('./pexels-neo-2653362.jpg');
+    background-image: url('/pexels-neo-2653362.jpg');
     background-size: cover;
     background-position: center;
     min-height: 100vh;
