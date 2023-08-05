@@ -3,11 +3,11 @@ import { Button, TextField, Typography, Grid, Card, CardContent, CircularProgres
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 
 function TaskForm() {
-    const navigate = useNavigate()
+
     const [error, setError] = React.useState()
     const [loading, setLoading] = React.useState(false)
     const [task, setTask] = React.useState({
@@ -16,22 +16,57 @@ function TaskForm() {
         date: dayjs(new Date)
     });
 
+    // route props
+    const navigate = useNavigate()
+    const params = useParams()
+
+    // loader a task
+    const GetTask = ((id) => {
+
+    })
+
+    // get a task 
+    const loadTask = async (id) => {
+        try {
+            const res = await fetch('http://localhost:4000/tasks/' + id)
+            const data = await res.json()
+            setTask({ title: data.title, description: data.description, date: dayjs(new Date(data.date)) })
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    // On load get a task, if it is the edit route 
+    React.useEffect(() => {
+        if (params.id)
+            loadTask(params.id)
+    }, [params.id])
+
     // input handler
     const handleChange = (e) => setTask({ ...task, [e.target.name]: e.target.value })
 
     // Submit Form
     const handleSubmit = async (e) => {
         e.preventDefault()
+
+        // Init var to request to server
         setError('')
         setLoading(true)
         try {
+            if (params.id) {
+                await fetch('http://localhost:4000/tasks/' + params.id, {
+                    method: 'PUT',
+                    body: JSON.stringify(task),
+                    headers: { 'Content-Type': 'application/json' }
+                })
 
-            const res = await fetch('http://localhost:4000/tasks', {
-                method: 'POST',
-                body: JSON.stringify(task),
-                headers: { 'Content-Type': 'application/json' }
-            })
-            const data = await res.json()
+            } else {
+                await fetch('http://localhost:4000/tasks', {
+                    method: 'POST',
+                    body: JSON.stringify(task),
+                    headers: { 'Content-Type': 'application/json' }
+                })
+            }
 
             navigate('/')
         } catch (err) {
@@ -44,7 +79,7 @@ function TaskForm() {
     return (
         <>
             <Grid container alignItems='center' justifyContent='center'>
-                <Grid item sx={3}>
+                <Grid item>
                     <Card sx={{ mt: 5 }} style={{
                         borderRadius: '.5rem',
                         borderWidth: '1px',
@@ -54,7 +89,7 @@ function TaskForm() {
                         backdropFilter: 'blur(15px)',
                     }}>
                         <Typography textAlign='center'>
-                            Create Task
+                            {params.id?'Edit Task':'Create Task'}
                         </Typography>
                         <CardContent>
                             <form className='flex flex-col justify-end' onSubmit={handleSubmit}>
@@ -63,12 +98,16 @@ function TaskForm() {
                                         value={task.date} name="date" onChange={(newValue) =>
                                             setTask({ ...task, date: newValue.format('YYYY-MM-DDTHH:mm:ssZ[Z]') })}
                                         defaultValue={new Date()}
-                                        renderInput={(params) => (
-                                            <TextField {...params} inputProps={{ style: { color: 'white', width: '256px' } }} />
-                                        )} />
+                                    />
                                 </LocalizationProvider>
-                                <TextField inputProps={{ style: { width: '256px' } }} sx={{ display: 'block', margin: '.5rem 0' }} name="title" onChange={handleChange} id="outlined-basic" label="Title" variant="outlined" />
-                                <TextField inputProps={{ style: { width: '256px' } }} sx={{ display: 'block', margin: '.5rem 0' }} name="description" onChange={handleChange} id="outlined-multiline-flexible" label="Description" multiline rows={4} maxRows={12} />
+                                <TextField
+                                    inputProps={{ style: { width: '256px' } }}
+                                    sx={{ display: 'block', margin: '.5rem 0' }}
+                                    name="title" value={task.title} onChange={handleChange} id="outlined-basic" label="Title" variant="outlined" />
+                                <TextField
+                                    inputProps={{ style: { width: '256px' } }}
+                                    sx={{ display: 'block', margin: '.5rem 0' }}
+                                    name="description" value={task.description} onChange={handleChange} id="outlined-multiline-flexible" label="Description" multiline rows={4} />
                                 <Typography color='red' textAlign='center'>
                                     {error}
                                 </Typography>
@@ -76,8 +115,8 @@ function TaskForm() {
                                     <Button variant='contained' onClick={() => navigate('/')}>Cancel</Button>
                                     <Button variant="contained" type="submit" disabled={!(task.title && task.description && task.date)}>
                                         {loading ? <CircularProgress
-                                        color='inherit'
-                                        size={24}
+                                            color='inherit'
+                                            size={24}
                                         /> : 'save'}
                                     </Button>
                                 </div>

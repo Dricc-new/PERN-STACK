@@ -32,7 +32,7 @@ export default function TaskList() {
 
   }
 
-  // On change get tasks
+  // On load get tasks
   React.useEffect(() => {
     loadTask()
   }, [])
