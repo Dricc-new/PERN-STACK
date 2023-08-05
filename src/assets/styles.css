@@ -14,3 +14,28 @@ body{
     border-color: #e8e5e333;
     backdrop-filter: blur(15px);
 }
+
+.box-scroll::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.box-scroll::-webkit-scrollbar:vertical {
+    width: 8px;
+}
+
+.box-scroll::-webkit-scrollbar:horizontal {
+    height: 8px;
+}
+
+.box-scroll::-webkit-scrollbar-button:increment,
+.box-scroll::-webkit-scrollbar-button {
+    display: none;
+}
+
+.box-scroll::-webkit-scrollbar-thumb {
+    background-color: #ffffff44;
+    backdrop-filter: blur(15px);
+    border-color: #e8e5e333;
+    border-radius: 20px;
+    border-width: 1px;
+}
