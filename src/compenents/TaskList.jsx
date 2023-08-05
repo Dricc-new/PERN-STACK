@@ -29,7 +29,6 @@ export default function TaskList() {
     } catch (err) {
       console.log(err)
     }
-
   }
 
   // On load get tasks
